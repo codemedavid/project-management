@@ -2,7 +2,18 @@ import type { NextAuthOptions } from "next-auth";
 import Github from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 import { GithubProfile } from "next-auth/providers/github";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { db } from "@/lib/db";
+import { compare } from "bcrypt";
 export const options: NextAuthOptions = {
+  adapter: PrismaAdapter(db),
+  secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
+  },
+  pages: {
+    signIn: "/sign-in",
+  },
   providers: [
     Github({
       profile(profile: GithubProfile) {
@@ -33,16 +44,36 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        const user = { id: "42", name: "JAD", password: "auth", role: "user" };
+        //  const user = { id: "42", name: "JAD", password: "auth", role: "user" };
 
-        if (
-          credentials?.username === user.name &&
-          credentials?.password === user.password
-        ) {
-          return user;
-        } else {
+        if (!credentials?.username || !credentials?.password) {
           return null;
         }
+
+        const existingUser = await db.user.findUnique({
+          where: { username: credentials.username },
+        });
+
+        if (!existingUser) {
+          return null;
+        }
+
+        const passwordMatch = await compare(
+          credentials.password,
+          existingUser.password
+        );
+
+        if (!passwordMatch) {
+          return null;
+        }
+
+        return {
+          id: `${existingUser.id}`,
+          username: existingUser.username,
+          email: existingUser.email,
+          role: existingUser.role,
+          name: existingUser.name,
+        };
       },
     }),
   ],
