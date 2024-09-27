@@ -16,6 +16,19 @@ enum Role {
   STUDENT
 }
 
+model Project{
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  created_at DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tikets Tikets[]
+  project_manager_id Int
+  project_manager User @relation("ProjectManagerRelation", fields: [project_manager_id], references: [id])  
+  editor_id Int
+  editor User @relation("EditorRelation", fields: [editor_id], references: [id])
+}
+
 model User {
   id     Int     @id @default(autoincrement())
   name String
@@ -26,6 +39,27 @@ model User {
   team String?
   created_at DateTime @default(now())
   updatedAt DateTime @updatedAt
+  editor Tikets[] @relation("EditorRelation")
+  project_manager Tikets[] @relation("ProjectManagerRelation")
+  project_manager_projects Project[] @relation("ProjectManagerRelation")
+  editedProjects Project[] @relation("EditorRelation")
+}
+
+model Tikets{
+  id Int @id @default(autoincrement())
+  code String @unique
+  note String?
+  url String?
+  approval String @default("pending")
+  status String @default("pending")
+  created_at DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  project_id Int
+  project Project @relation(fields: [project_id], references: [id])
+  project_manager_id Int
+  project_manager User @relation("ProjectManagerRelation", fields: [project_manager_id], references: [id])
+  editor_id Int
+  editor User @relation("EditorRelation", fields: [editor_id], references: [id])
 }
 
 datasource db {

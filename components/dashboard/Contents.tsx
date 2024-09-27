@@ -1,11 +1,12 @@
 import React from "react";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
+import NewProjectBtn from "@/components/Buttons/NewProjectBtn";
 import Image from "next/image";
-
+import ProjectsCard from "./ProjectsCard";
 export default async function Contents() {
   const session = await getServerSession(options);
-  console.log("session", session);
+  console.log(session);
   return (
     <div className='ml-2 p-10 w-full'>
       <div className='flex justify-between '>
@@ -13,7 +14,10 @@ export default async function Contents() {
           <h1 className='text-3xl'>
             Hello, <span className='font-semibold'>{session?.user.name}</span>
           </h1>
-          <p className='font-thin'>Let's get things done</p>
+          <p className='font-thin'>Let&apos;s get things done</p>
+        </div>
+        <div className='w-52'>
+          <NewProjectBtn />
         </div>
       </div>
 
@@ -56,6 +60,21 @@ export default async function Contents() {
             <p className='font-semibold text-xl'>12</p>
             <span className='text-sm'>Editors</span>
           </div>
+        </div>
+      </div>
+
+      {/* Recent Tasks */}
+      <div className='flex flex-col gap-4 mt-4'>
+        <div className='flex justify-between items-center'>
+          <h1 className='text-xl font-semibold'>Ongoing Projects</h1>
+          <button className='text-sm font-light'>View All</button>
+        </div>
+
+        <div className='flex gap-4 flex-wrap'>
+          <ProjectsCard dark={true} />
+          <ProjectsCard dark={false} />
+          <ProjectsCard dark={false} />
+          <ProjectsCard dark={false} />
         </div>
       </div>
     </div>

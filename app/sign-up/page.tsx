@@ -1,5 +1,4 @@
 import React from "react";
-import SignInForm from "@/components/form/signInForm";
 import Link from "next/link";
 import SignUpForm from "@/components/form/signUpForm";
 export default function SignUp() {

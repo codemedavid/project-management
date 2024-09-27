@@ -8,9 +8,11 @@ export default function SignInForm() {
   const [message, setMessage] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (e: BaseSyntheticEvent) => {
     e.preventDefault();
+    setLoading(true);
     const signInData = await signIn("credentials", {
       username,
       password,
@@ -57,8 +59,9 @@ export default function SignInForm() {
           className='w-full bg-green-700 text-white p-2 rounded-md'
           onClick={onSubmit}
           type='button'
+          disabled={loading}
         >
-          Sign in
+          {loading ? "Loading..." : "Sign in"}
         </button>
       </div>
     </form>

@@ -1,7 +1,5 @@
 "use client";
 import React, { BaseSyntheticEvent, useState } from "react";
-import Link from "next/link";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 export default function SignUpForm() {
   const router = useRouter();
@@ -10,9 +8,10 @@ export default function SignUpForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const onSubmit = async (e: BaseSyntheticEvent) => {
     e.preventDefault();
+    setLoading(true);
     if (password === confirmPassword) {
       const response = await fetch("/api/user", {
         method: "POST",
@@ -87,7 +86,7 @@ export default function SignUpForm() {
           className='w-full bg-green-700 text-white p-2 rounded-md'
           onClick={onSubmit}
         >
-          Sign in
+          {loading ? "Loading..." : "Sign up"}
         </button>
       </div>
     </form>

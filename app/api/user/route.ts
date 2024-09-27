@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { hash } from "bcrypt";
+import { Role } from "@prisma/client";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -58,6 +59,32 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         message: "Something went wrong while creating new user",
+        error,
+      },
+      { status: 501 }
+    );
+  }
+}
+
+export async function GET(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const roleRequest = searchParams.get("role")?.toUpperCase();
+    const role = roleRequest as Role;
+    if (!role) {
+      const users = await db.user.findMany();
+      return NextResponse.json({ users }, { status: 202 });
+    }
+    const users = await db.user.findMany({
+      where: {
+        role: role ?? "EDITOR",
+      },
+    });
+    return NextResponse.json({ users }, { status: 202 });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: "Something went wrong while fetching users",
         error,
       },
       { status: 501 }
