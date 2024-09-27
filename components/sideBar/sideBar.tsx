@@ -7,7 +7,7 @@ import SideBarCards from "./SideBarCards";
 import { FaTasks } from "react-icons/fa";
 import { FaBriefcase } from "react-icons/fa";
 import SignOutBtn from "../signOutBtn";
-export default async function SideBar() {
+export default async function SideBar({ link }: { link: string }) {
   const session = await getServerSession(options);
   console.log("session", session);
   return (
@@ -31,13 +31,23 @@ export default async function SideBar() {
 
       {/* NavLinks */}
       <div className='flex flex-col gap-2 mt-4'>
-        <SideBarCards link='/' name='Dashboard' Icon={FaHome} active={true} />
-        <SideBarCards link='/' name='My tasks' Icon={FaTasks} active={false} />
         <SideBarCards
           link='/'
+          name='Dashboard'
+          Icon={FaHome}
+          active={link === "Dashboard" ? true : false}
+        />
+        <SideBarCards
+          link='/'
+          name='My tasks'
+          Icon={FaTasks}
+          active={link === "My tasks" ? true : false}
+        />
+        <SideBarCards
+          link='/projects'
           name='Projects'
           Icon={FaBriefcase}
-          active={false}
+          active={link === "Projects" ? true : false}
         />
       </div>
 

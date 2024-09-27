@@ -2,14 +2,24 @@ import React from "react";
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
 import Link from "next/link";
-export default function ProjectsCard({ dark }: { dark: boolean }) {
+export default function ProjectsCard({
+  dark,
+  title,
+  description,
+  id,
+}: {
+  dark: boolean;
+  title: string;
+  description: string;
+  id: string;
+}) {
   return (
     <div
-      className={`p-4 rounded-lg shadow-md w-[48.5%] ${
+      className={`p-4 rounded-lg shadow-md w-80  ${
         dark
           ? "bg-yellow-400 text-white hover:bg-yellow-500"
           : "bg-gray-100 text-black hover:bg-gray-200"
-      }`}
+      } ${id == "1" && "text-white bg-yellow-400  hover:bg-yellow-500 "}`}
     >
       <div className='flex justify-between items-center'>
         {/* Tags */}
@@ -49,26 +59,32 @@ export default function ProjectsCard({ dark }: { dark: boolean }) {
       </div>
 
       {/* Description */}
-      <Link href={"/projects/sir-jim-project-with-sir-andy"} className='mt-4'>
+      <Link href={`/projects/${id}`} className='mt-4'>
         <h2
           className={` text-lg font-semibold ${
             dark ? "text-white" : "text-black"
-          }`}
+          }
+          ${id == "1" && "text-white"}
+          `}
         >
-          Sir Jim Project With Sir Andy
+          {title}
         </h2>
         <p
           className={` text-xs font-light overflow-hidden whitespace-nowrap text-ellipsis ${
             dark ? "text-white" : "text-black"
-          }`}
+          }
+          ${id == "1" && "text-white"}
+          `}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          {description}
         </p>
 
         <div
           className={`flex justify-between items-center mt-4 ${
             dark ? "text-white" : "text-black"
-          }`}
+          }
+          ${id == "1" && "text-white"}
+          `}
         >
           <span className='text-lg font-light flex items-center gap-2'>
             Details <FaArrowRight className='w-4 h-4' />

@@ -5,9 +5,9 @@ export default function Home() {
   return (
     <div className=' text-black font-light flex justify-between'>
       <div className='w-[40%]'>
-        <SideBar />
+        <SideBar link='Dashboard' />
       </div>
-      <div>
+      <div className='w-5/6'>
         <Contents />
       </div>
       <div className='w-[30%] border-l border-slate-300'></div>

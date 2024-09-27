@@ -42,3 +42,45 @@ export async function POST(req: Request) {
     );
   }
 }
+
+export async function GET(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const projectId = searchParams.get("projectId");
+    const limit = searchParams.get("limit");
+
+    if (!projectId && !limit) {
+      const projects = await db.project.findMany();
+
+      return NextResponse.json({ projects }, { status: 203 });
+    }
+
+    if (limit) {
+      const projects = await db.project.findMany({
+        take: parseInt(limit),
+      });
+
+      return NextResponse.json({ projects }, { status: 203 });
+    }
+
+    const project = await db.project.findUnique({
+      where: {
+        id: parseInt(projectId as string),
+      },
+      include: {
+        project_manager: true,
+        editor: true,
+      },
+    });
+
+    return NextResponse.json({ project }, { status: 203 });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: "Something went wrong while fetching project",
+        error,
+      },
+      { status: 501 }
+    );
+  }
+}

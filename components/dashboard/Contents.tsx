@@ -4,9 +4,12 @@ import { getServerSession } from "next-auth";
 import NewProjectBtn from "@/components/Buttons/NewProjectBtn";
 import Image from "next/image";
 import ProjectsCard from "./ProjectsCard";
+import { getProjectsLimit } from "@/lib/project";
 export default async function Contents() {
+  const projects = await getProjectsLimit(4);
+  const projectsData = projects.projects;
+
   const session = await getServerSession(options);
-  console.log(session);
   return (
     <div className='ml-2 p-10 w-full'>
       <div className='flex justify-between '>
@@ -70,11 +73,18 @@ export default async function Contents() {
           <button className='text-sm font-light'>View All</button>
         </div>
 
-        <div className='flex gap-4 flex-wrap'>
-          <ProjectsCard dark={true} />
-          <ProjectsCard dark={false} />
-          <ProjectsCard dark={false} />
-          <ProjectsCard dark={false} />
+        <div className='flex gap-4 flex-wrap overflow-y-auto'>
+          {projectsData.map(
+            (project: { title: string; description: string; id: string }) => (
+              <ProjectsCard
+                dark={false}
+                title={project.title}
+                description={project.description}
+                id={project.id}
+                key={project.id}
+              />
+            )
+          )}
         </div>
       </div>
     </div>
