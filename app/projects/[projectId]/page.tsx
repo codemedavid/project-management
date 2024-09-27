@@ -5,6 +5,9 @@ import Link from "next/link";
 import { FaTelegram } from "react-icons/fa";
 import Image from "next/image";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import { SiGooglemeet } from "react-icons/si";
+import NewTicketBtn from "@/components/Buttons/NewTicketBtn";
+
 export default async function Projects({
   params,
 }: {
@@ -62,8 +65,8 @@ export default async function Projects({
           </div>
         </div>
         {/* DownCorner */}
-        <div>
-          <div className='mt-20 flex gap-5'>
+        <div className='flex justify-between mt-10 items-center'>
+          <div className='flex gap-5'>
             <h4 className='text-xl font-bold'>Tickets</h4>
             <div>
               <div className='flex gap-2 items-center'>
@@ -76,7 +79,17 @@ export default async function Projects({
               </div>
             </div>
           </div>
+
+          <div className='flex gap-2'>
+            <NewTicketBtn />
+            <button className='bg-black text-white p-2 rounded-md text-sm flex gap-2 items-center justify-center'>
+              <SiGooglemeet size={20} color='yellow' />
+            </button>
+          </div>
         </div>
+
+        {/* All Tickets Table */}
+        <div></div>
       </div>
     </div>
   );

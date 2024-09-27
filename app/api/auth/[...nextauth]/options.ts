@@ -22,6 +22,7 @@ export const options: NextAuthOptions = {
         return {
           ...profile,
           role: profile.role ?? "user",
+          username: profile.login,
           id: profile.id.toString(),
           image: profile.avatar_url,
         };
@@ -79,11 +80,18 @@ export const options: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.role = user.role;
+      if (user) {
+        token.role = user.role;
+        token.username = user.username;
+      }
       return token;
     },
     async session({ session, token }) {
-      if (session?.user) session.user.role = token.role;
+      if (session?.user) {
+        session.user.role = token.role as string;
+        session.user.username = token.username as string;
+      }
+
       return session;
     },
   },

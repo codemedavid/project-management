@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaArrowRight, FaPlus } from "react-icons/fa";
 import { getUserProjectManager, getUserEditor } from "@/lib/User";
 import { postProject } from "@/lib/project";
 export default function NewProjectBtn() {
@@ -80,36 +80,45 @@ export default function NewProjectBtn() {
                     className='w-full p-2 mb-4 border rounded'
                     required
                   />
-                  <select
-                    value={projectManager}
-                    onChange={(e) => setProjectManager(e.target.value)}
-                    className='w-full p-2 mb-4 border rounded'
-                  >
-                    <option value=''>Select Project Manager</option>
-                    {projectManagers.map(
-                      (manager: { id: string; name: string }) => {
+
+                  <div className='flex gap-4 items-center justify-center'>
+                    <select
+                      value={projectManager}
+                      onChange={(e) => setProjectManager(e.target.value)}
+                      className='w-full p-2 mb-4 border rounded'
+                    >
+                      <option value=''>Select Project Manager</option>
+                      {projectManagers.map(
+                        (manager: { id: string; name: string }) => {
+                          return (
+                            <option key={manager.id} value={manager.id}>
+                              {manager.name}
+                            </option>
+                          );
+                        }
+                      )}
+                    </select>
+
+                    <div className='flex items-center h-full mb-5 justify-center text-center'>
+                      <FaArrowRight />
+                    </div>
+                    {/* Editor */}
+                    <select
+                      value={editor}
+                      onChange={(e) => setEditor(e.target.value)}
+                      className='w-full p-2 mb-4 border rounded'
+                    >
+                      <option value=''>Select Editor</option>
+                      {editors.map((editor: { id: string; name: string }) => {
                         return (
-                          <option key={manager.id} value={manager.id}>
-                            {manager.name}
+                          <option key={editor.id} value={editor.id}>
+                            {editor.name}
                           </option>
                         );
-                      }
-                    )}
-                  </select>
-                  <select
-                    value={editor}
-                    onChange={(e) => setEditor(e.target.value)}
-                    className='w-full p-2 mb-4 border rounded'
-                  >
-                    <option value=''>Select Editor</option>
-                    {editors.map((editor: { id: string; name: string }) => {
-                      return (
-                        <option key={editor.id} value={editor.id}>
-                          {editor.name}
-                        </option>
-                      );
-                    })}
-                  </select>
+                      })}
+                    </select>
+                  </div>
+
                   <textarea
                     value={projectDescription}
                     onChange={(e) => setProjectDescription(e.target.value)}

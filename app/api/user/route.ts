@@ -91,3 +91,23 @@ export async function GET(req: Request) {
     );
   }
 }
+
+export async function PUT(req: Request) {
+  try {
+    const body = await req.json();
+    const { id, ...rest } = body;
+    const updatedUser = await db.user.update({
+      where: { id: parseInt(id) },
+      data: rest,
+    });
+    return NextResponse.json({ updatedUser }, { status: 202 });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: "Something went wrong while updating user",
+        error,
+      },
+      { status: 501 }
+    );
+  }
+}

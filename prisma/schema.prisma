@@ -20,6 +20,10 @@ model Project{
   id Int @id @default(autoincrement())
   title String
   description String
+  Platform String?
+  Rate Decimal?
+  Video_Type String?
+  Niche String?
   created_at DateTime @default(now())
   updatedAt DateTime @updatedAt
   tikets Tikets[]
@@ -27,6 +31,18 @@ model Project{
   project_manager User @relation("ProjectManagerRelation", fields: [project_manager_id], references: [id])  
   editor_id Int
   editor User @relation("EditorRelation", fields: [editor_id], references: [id])
+}
+
+model Client{
+  id Int @id @default(autoincrement())
+  name String
+  email String?
+  phone String?
+  social_media String?
+  created_at DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  project_manager_id Int
+  project_manager User @relation("ClientRelation", fields: [project_manager_id], references: [id])
 }
 
 model User {
@@ -43,6 +59,7 @@ model User {
   project_manager Tikets[] @relation("ProjectManagerRelation")
   project_manager_projects Project[] @relation("ProjectManagerRelation")
   editedProjects Project[] @relation("EditorRelation")
+  client Client[] @relation("ClientRelation")
 }
 
 model Tikets{

@@ -5,13 +5,14 @@ import NewProjectBtn from "@/components/Buttons/NewProjectBtn";
 import Image from "next/image";
 import ProjectsCard from "./ProjectsCard";
 import { getProjectsLimit } from "@/lib/project";
+import Link from "next/link";
 export default async function Contents() {
   const projects = await getProjectsLimit(4);
   const projectsData = projects.projects;
 
   const session = await getServerSession(options);
   return (
-    <div className='ml-2 p-10 w-full'>
+    <div className='py-10 mr-10 w-full'>
       <div className='flex justify-between '>
         <div className='w-full'>
           <h1 className='text-3xl'>
@@ -32,7 +33,9 @@ export default async function Contents() {
           </div>
           <div className='flex flex-col gap-3'>
             <p className='font-semibold text-xl'>36</p>
-            <span className='text-sm'>Project Managers</span>
+            <span className='text-sm overflow-hidden whitespace-nowrap overflow-ellipsis'>
+              Project Managers
+            </span>
           </div>
         </div>
 
@@ -70,7 +73,9 @@ export default async function Contents() {
       <div className='flex flex-col gap-4 mt-4'>
         <div className='flex justify-between items-center'>
           <h1 className='text-xl font-semibold'>Ongoing Projects</h1>
-          <button className='text-sm font-light'>View All</button>
+          <Link href={"/projects"} className='text-sm font-light'>
+            View All
+          </Link>
         </div>
 
         <div className='flex gap-4 flex-wrap overflow-y-auto'>
