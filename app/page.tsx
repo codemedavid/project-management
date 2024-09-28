@@ -20,7 +20,11 @@ export default async function Home() {
       <div className='w-[53%] flex justify-center '>
         {/* <Contents /> */}
         <ProjectManager
-          session={session || { user: { name: "", username: "", email: "" } }}
+          session={
+            session || {
+              user: { name: "", username: "", email: "", id: "" },
+            }
+          }
         />
       </div>
       <div className='w-[22%] border-l border-slate-300'>
