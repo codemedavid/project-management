@@ -44,3 +44,17 @@ export const getProjectsLimit = async (limit: number) => {
     console.error(error);
   }
 };
+
+export const getProjectsByProjectManagerId = async (
+  projectManagerId: number
+) => {
+  try {
+    const res = await fetch(
+      `${process.env.URL}/api/projects?projectManagerId=${projectManagerId}`
+    );
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};

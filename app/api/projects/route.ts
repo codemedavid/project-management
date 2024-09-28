@@ -47,9 +47,11 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const projectId = searchParams.get("projectId");
+    const projectManagerId = searchParams.get("projectManagerId");
+
     const limit = searchParams.get("limit");
 
-    if (!projectId && !limit) {
+    if (!projectId && !projectManagerId && !limit) {
       const projects = await db.project.findMany();
 
       return NextResponse.json({ projects }, { status: 203 });
@@ -58,6 +60,16 @@ export async function GET(req: Request) {
     if (limit) {
       const projects = await db.project.findMany({
         take: parseInt(limit),
+      });
+
+      return NextResponse.json({ projects }, { status: 203 });
+    }
+
+    if (projectManagerId) {
+      const projects = await db.project.findMany({
+        where: {
+          project_manager_id: parseInt(projectManagerId as string),
+        },
       });
 
       return NextResponse.json({ projects }, { status: 203 });

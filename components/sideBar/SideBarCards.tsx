@@ -14,11 +14,11 @@ export default function SideBarCards({
   return (
     <Link
       href={link}
-      className={`hover:bg-slate-300 ${
-        active && "bg-slate-300"
+      className={`hover:bg-yellow-200 ${
+        active && "bg-yellow-300"
       } p-2 rounded-lg flex items-center gap-2`}
     >
-      <div className='flex items-center gap-2'>
+      <div className='flex items-center gap-2 text-sm'>
         <Icon />
         <span>{name}</span>
       </div>
