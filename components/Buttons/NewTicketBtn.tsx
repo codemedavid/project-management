@@ -3,14 +3,14 @@ import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 export default function NewTicketBtn() {
   const [isOpen, setIsOpen] = useState(false);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState("");
-  const [status, setStatus] = useState("");
-  const [dueDate, setDueDate] = useState("");
-  const [assignee, setAssignee] = useState("");
-  const [reporter, setReporter] = useState("");
-  const [type, setType] = useState("");
+  // const [title, setTitle] = useState("");
+  // const [description, setDescription] = useState("");
+  // const [priority, setPriority] = useState("");
+  // const [status, setStatus] = useState("");
+  // const [dueDate, setDueDate] = useState("");
+  // const [assignee, setAssignee] = useState("");
+  // const [reporter, setReporter] = useState("");
+  // const [type, setType] = useState("");
 
   return (
     <>
