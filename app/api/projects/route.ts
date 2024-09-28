@@ -60,6 +60,9 @@ export async function GET(req: Request) {
     if (limit) {
       const projects = await db.project.findMany({
         take: parseInt(limit),
+        orderBy: {
+          created_at: "desc",
+        },
       });
 
       return NextResponse.json({ projects }, { status: 203 });

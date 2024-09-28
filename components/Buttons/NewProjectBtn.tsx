@@ -3,7 +3,9 @@ import React, { useState, useEffect } from "react";
 import { FaArrowRight, FaPlus } from "react-icons/fa";
 import { getUserProjectManager, getUserEditor } from "@/lib/User";
 import { postProject } from "@/lib/project";
+import { useRouter } from "next/navigation";
 export default function NewProjectBtn() {
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
@@ -47,6 +49,7 @@ export default function NewProjectBtn() {
     console.log(res);
     closeModal();
     setLoading(false);
+    router.refresh();
     // Reset form fields
     setProjectName("");
     setProjectDescription("");

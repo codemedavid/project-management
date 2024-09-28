@@ -7,15 +7,33 @@ import Image from "next/image";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { SiGooglemeet } from "react-icons/si";
 import NewTicketBtn from "@/components/Buttons/NewTicketBtn";
-
+import { getServerSession } from "next-auth";
+import { options } from "@/app/api/auth/[...nextauth]/options";
 export default async function Projects({
   params,
 }: {
   params: { projectId: string };
 }) {
   const project = await getProject(parseInt(params.projectId));
-  const projectData = project.project;
-  console.log(project);
+  const session = await getServerSession(options);
+  const projectDetails = project.project;
+  const {
+    title,
+    description,
+    project_manager_id,
+    Niche,
+    Platform,
+    Rate,
+    Video_Type,
+  } = projectDetails;
+  const myId = session?.user.id.toString();
+  const projectManagerId = project_manager_id.toString();
+  if (!session) {
+    return <div>Loading...</div>;
+  }
+  if (myId !== projectManagerId) {
+    return <div>You are not authorized to access this project</div>;
+  }
   return (
     <div className=' text-black font-light flex justify-between px-4'>
       <div className='w-[30%]'>
@@ -25,8 +43,8 @@ export default async function Projects({
         {/* UpperCorner */}
         <div className='flex justify-between'>
           <div>
-            <h1 className='text-3xl font-bold'>{projectData.title}</h1>
-            <p className='text-xl text-slate-500'>{projectData.description}</p>
+            <h1 className='text-3xl font-bold'>{title}</h1>
+            <p className='text-xl text-slate-500'>{description}</p>
           </div>
           <div className='flex flex-col gap-4 w-72 bg-slate-200 rounded-lg p-2'>
             <div className='flex gap-4'>
@@ -40,8 +58,8 @@ export default async function Projects({
               <div>
                 <span className='font-bold'>Editor Profile</span>
 
-                <p>{projectData.editor.name}</p>
-                <p className='text-xs'>{projectData.editor.email}</p>
+                <p>{projectDetails.editor.name}</p>
+                <p className='text-xs'>{projectDetails.editor.email}</p>
               </div>
             </div>
 
@@ -81,7 +99,16 @@ export default async function Projects({
           </div>
 
           <div className='flex gap-2'>
-            <NewTicketBtn />
+            {Platform == null ||
+            Video_Type == null ||
+            Rate == null ||
+            Niche == null ? (
+              <button className='bg-black text-white p-2 rounded-md text-sm flex gap-2 items-center justify-center'>
+                Add Details
+              </button>
+            ) : (
+              <NewTicketBtn />
+            )}
             <button className='bg-black text-white p-2 rounded-md text-sm flex gap-2 items-center justify-center'>
               <SiGooglemeet size={20} color='yellow' />
             </button>
@@ -89,7 +116,16 @@ export default async function Projects({
         </div>
 
         {/* All Tickets Table */}
-        <div></div>
+        <div className=' flex flex-col gap-2 w-full  h-[40vh] justify-center items-center text-center text-xl mt-10'>
+          {Platform == null ||
+          Video_Type == null ||
+          Rate == null ||
+          Niche == null ? (
+            <p>Please add Client or Project Details to Create a Ticket</p>
+          ) : (
+            <p>You Can Now Create a Ticket</p>
+          )}
+        </div>
       </div>
     </div>
   );
