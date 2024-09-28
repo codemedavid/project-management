@@ -5,6 +5,7 @@ import { GithubProfile } from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "@/lib/db";
 import { compare } from "bcrypt";
+
 export const options: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   secret: process.env.NEXTAUTH_SECRET,
@@ -17,14 +18,13 @@ export const options: NextAuthOptions = {
   providers: [
     Github({
       profile(profile: GithubProfile) {
-        //console.log(profile);
-
         return {
-          ...profile,
-          role: profile.role ?? "user",
-          username: profile.login,
           id: profile.id.toString(),
+          name: profile.name ?? profile.login,
+          email: profile.email,
           image: profile.avatar_url,
+          username: profile.login,
+          role: profile.role ?? "user",
         };
       },
       clientId: process.env.GITHUB_ID as string,
@@ -69,11 +69,11 @@ export const options: NextAuthOptions = {
         }
 
         return {
-          id: `${existingUser.id}`,
-          username: existingUser.username,
-          email: existingUser.email,
-          role: existingUser.role,
+          id: existingUser.id.toString(),
           name: existingUser.name,
+          email: existingUser.email,
+          username: existingUser.username,
+          role: existingUser.role,
         };
       },
     }),
@@ -83,15 +83,14 @@ export const options: NextAuthOptions = {
       if (user) {
         token.role = user.role;
         token.username = user.username;
-        token.id = user.id;
       }
       return token;
     },
     async session({ session, token }) {
       if (session?.user) {
-        session.user.role = token.role as string;
-        session.user.username = token.username as string;
-        session.user.id = token.id;
+        session.user.role = token.role;
+        session.user.username = token.username;
+        session.user.id = token.sub as string;
       }
 
       return session;
