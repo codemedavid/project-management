@@ -21,7 +21,7 @@ export default async function ProjectManager({
       <div className='pr-10'>
         <p className='text-xl font-semibold pb-2'>Your Projects</p>
         <div className='flex gap-4 overflow-x-auto '>
-          {myProjects.projects.map(
+          {myProjects.projects?.map(
             (project: { id: number; title: string; description: string }) => (
               <SmallProjectsCard
                 key={project.id}
