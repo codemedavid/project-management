@@ -1,21 +1,30 @@
 import React from "react";
 import SideBar from "@/components/sideBar/sideBar";
-import Contents from "@/components/dashboard/Contents";
+// import Contents from "@/components/dashboard/Contents";
 import { FaPlus } from "react-icons/fa";
 import RightTicketApproval from "@/components/dashboard/RightTicketApproval";
 import ProfileCard from "@/components/Profile/ProfileCard";
+import ProjectManager from "@/components/dashboard/Contents.ProjectManager";
 import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 
-export default async function Admin() {
+export default async function Home() {
   const session = await getServerSession(options);
+
   return (
     <div className=' text-black font-light flex justify-between  gap-'>
       <div className='w-3/12'>
         <SideBar link='Dashboard' />
       </div>
       <div className='w-[53%] flex justify-center '>
-        <Contents />
+        {/* <Contents /> */}
+        <ProjectManager
+          session={
+            session || {
+              user: { name: "", username: "", email: "", id: "" },
+            }
+          }
+        />
       </div>
       <div className='w-[22%] border-l border-slate-300'>
         <div className='h-60 bg-white w-full'>

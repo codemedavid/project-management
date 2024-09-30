@@ -5,3 +5,4 @@ npx prisma generate
 
 # Run the build command
 npm run build
+
