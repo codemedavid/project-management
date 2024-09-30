@@ -12,18 +12,25 @@ export default function SignInForm() {
 
   const onSubmit = async (e: BaseSyntheticEvent) => {
     e.preventDefault();
-    setLoading(true);
-    const signInData = await signIn("credentials", {
-      username,
-      password,
-      redirect: false,
-    });
-    console.log(signInData);
+    try {
+      setLoading(true);
+      const signInData = await signIn("credentials", {
+        username,
+        password,
+        redirect: false,
+      });
+      console.log(signInData);
 
-    if (signInData?.ok) {
-      router.push("/");
-    } else {
-      setMessage("Please enter the correct username or password");
+      if (signInData?.ok) {
+        router.push("/");
+        setLoading(false);
+      } else {
+        setMessage("Please enter the correct username or password");
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
     }
   };
   return (
