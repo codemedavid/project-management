@@ -11,16 +11,22 @@ export default async function Page() {
         <SideBar link='Projects' />
       </div>
       <div className='w-5/6 flex flex-wrap gap-4 pt-4'>
-        {projectsData.map(
-          (project: { title: string; description: string; id: string }) => (
-            <ProjectsCard
-              key={project.id}
-              dark={false}
-              title={project.title}
-              description={project.description}
-              id={project.id}
-            />
-          )
+        {projects.length > 0 ? (
+          <ul>
+            {projectsData.map(
+              (project: { title: string; description: string; id: string }) => (
+                <ProjectsCard
+                  key={project.id}
+                  dark={false}
+                  title={project.title}
+                  description={project.description}
+                  id={project.id}
+                />
+              )
+            )}
+          </ul>
+        ) : (
+          <p>No projects found.</p>
         )}
       </div>
     </div>
