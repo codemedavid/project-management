@@ -21,15 +21,19 @@ export default async function ProjectManager({
       <div className='pr-10'>
         <p className='text-xl font-semibold pb-2'>Your Projects</p>
         <div className='flex gap-4 overflow-x-auto '>
-          {myProjects.projects?.map(
-            (project: { id: number; title: string; description: string }) => (
-              <SmallProjectsCard
-                key={project.id}
-                id={project.id}
-                title={project.title}
-                description={project.description}
-              />
+          {myProjects.projects.length > 0 ? (
+            myProjects.projects.map(
+              (project: { id: number; title: string; description: string }) => (
+                <SmallProjectsCard
+                  key={project.id}
+                  id={project.id}
+                  title={project.title}
+                  description={project.description}
+                />
+              )
             )
+          ) : (
+            <p>No projects found</p>
           )}
         </div>
       </div>
