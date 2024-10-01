@@ -48,7 +48,7 @@ export default async function Projects({
   if (!session) {
     return <div>Loading...</div>;
   }
-  if (myId !== projectManagerId) {
+  if (myId !== projectManagerId && role !== "ADMIN") {
     return <div>You are not authorized to access this project</div>;
   }
 
