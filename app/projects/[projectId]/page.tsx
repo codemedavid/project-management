@@ -41,7 +41,9 @@ export default async function Projects({
   console.log("new project", project);
 
   const session = await getServerSession(options);
-  const myId = session?.user.id.toString();
+  const { user } = session || {};
+  const myId = user?.id.toString();
+  const role = user?.role;
   const projectManagerId = project_manager_id?.toString();
   if (!session) {
     return <div>Loading...</div>;
