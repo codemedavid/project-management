@@ -1,5 +1,4 @@
 import React from "react";
-import { getProject } from "@/lib/project";
 import SideBar from "@/components/sideBar/sideBar";
 import Link from "next/link";
 import { FaTelegram } from "react-icons/fa";
@@ -9,31 +8,48 @@ import { SiGooglemeet } from "react-icons/si";
 import NewTicketBtn from "@/components/Buttons/NewTicketBtn";
 import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
+import { db } from "@/lib/db";
 export default async function Projects({
   params,
 }: {
   params: { projectId: string };
 }) {
-  const project = await getProject(parseInt(params.projectId));
-  const session = await getServerSession(options);
-  const projectDetails = project.project;
+  const project = await db.project.findUnique({
+    where: {
+      id: parseInt(params.projectId),
+    },
+  });
+
   const {
     title,
     description,
-    project_manager_id,
     Niche,
     Platform,
     Rate,
     Video_Type,
-  } = projectDetails;
+    editor_id,
+    project_manager_id,
+  } = project || {};
+
+  const editor = await db.user.findUnique({
+    where: {
+      id: editor_id,
+    },
+  });
+  const { name, email } = editor || {};
+
+  console.log("new project", project);
+
+  const session = await getServerSession(options);
   const myId = session?.user.id.toString();
-  const projectManagerId = project_manager_id.toString();
+  const projectManagerId = project_manager_id?.toString();
   if (!session) {
     return <div>Loading...</div>;
   }
   if (myId !== projectManagerId) {
     return <div>You are not authorized to access this project</div>;
   }
+
   return (
     <div className=' text-black font-light flex justify-between px-4'>
       <div className='w-[30%]'>
@@ -58,8 +74,8 @@ export default async function Projects({
               <div>
                 <span className='font-bold'>Editor Profile</span>
 
-                <p>{projectDetails.editor.name}</p>
-                <p className='text-xs'>{projectDetails.editor.email}</p>
+                <p>{name}</p>
+                <p className='text-xs'>{email}</p>
               </div>
             </div>
 
