@@ -6,6 +6,7 @@ import { FaHome } from "react-icons/fa";
 import SideBarCards from "./SideBarCards";
 import { FaTasks } from "react-icons/fa";
 import { FaBriefcase } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
 import SignOutBtn from "../signOutBtn";
 export default async function SideBar({ link }: { link: string }) {
   const session = await getServerSession(options);
@@ -48,6 +49,12 @@ export default async function SideBar({ link }: { link: string }) {
           name='Projects'
           Icon={FaBriefcase}
           active={link === "Projects" ? true : false}
+        />
+        <SideBarCards
+          link='/users'
+          name='Users'
+          Icon={FaUsers}
+          active={link === "Users" ? true : false}
         />
       </div>
 
