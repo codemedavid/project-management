@@ -9,10 +9,8 @@ export default async function ProjectManager({
     user: { name: string; username: string; email: string; id: string };
   };
 }) {
-  console.log(session);
   const id = parseInt(session.user.id);
   const myProjects = await getProjectsByProjectManagerId(id);
-  console.log(myProjects);
   return (
     <div className='w-full flex flex-col gap-4'>
       <div className='h-[30vh] w-full pt-10 pr-12 '>
