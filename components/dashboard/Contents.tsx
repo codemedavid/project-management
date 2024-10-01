@@ -6,10 +6,14 @@ import Image from "next/image";
 import ProjectsCard from "./ProjectsCard";
 import { getProjectsLimit } from "@/lib/project";
 import Link from "next/link";
+import { getUserProjectManager } from "@/lib/User";
+import { getUserEditor } from "@/lib/User";
 export default async function Contents() {
+  const projectManagers = await getUserProjectManager();
+  const editors = await getUserEditor();
   const projects = await getProjectsLimit(4);
   const projectsData = projects?.projects;
-  console.log("projects", projects);
+  console.log("project managers", projectManagers);
 
   const session = await getServerSession(options);
   return (
@@ -22,7 +26,10 @@ export default async function Contents() {
           <p className='font-thin'>Let&apos;s get things done</p>
         </div>
         <div className='w-52'>
-          <NewProjectBtn />
+          <NewProjectBtn
+            projectManagers={projectManagers.length > 0 ? projectManagers : []}
+            editors={editors.length > 0 ? editors : []}
+          />
         </div>
       </div>
 

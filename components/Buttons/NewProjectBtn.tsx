@@ -1,43 +1,28 @@
 "use client";
-import React, { useState, useEffect, BaseSyntheticEvent } from "react";
+import React, { useState, BaseSyntheticEvent } from "react";
 import { FaArrowRight, FaPlus } from "react-icons/fa";
-import { getUserProjectManager, getUserEditor } from "@/lib/User";
 import { postProject } from "@/lib/project";
 import { useRouter } from "next/navigation";
-export default function NewProjectBtn() {
+export default function NewProjectBtn({
+  projectManagers,
+  editors,
+}: {
+  projectManagers: { id: string; name: string }[];
+  editors: { id: string; name: string }[];
+}) {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
   const [projectManager, setProjectManager] = useState("");
   const [editor, setEditor] = useState("");
-  const [projectManagers, setProjectManagers] = useState([]);
-  const [editors, setEditors] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  // const projectManagers = async () => {
-  //   const res = await getUserProjectManager();
-  //   return res.json();
-  // };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const projectManagers = await getUserProjectManager();
-        const editors = await getUserEditor();
-
-        setProjectManagers(
-          projectManagers?.users.length > 0 ? projectManagers?.users : []
-        );
-        setEditors(editors?.users.length > 0 ? editors?.users : []);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  console.log(projectManagers);
+  console.log(editors);
 
   const handleSubmit = async (event: BaseSyntheticEvent) => {
     event.preventDefault();
