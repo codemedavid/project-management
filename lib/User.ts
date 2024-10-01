@@ -1,3 +1,6 @@
+"use server";
+import { db } from "@/lib/db";
+import { Role } from "@prisma/client";
 const URL = process.env.URL || "https://project.programmingcourses.vip";
 
 const fetchWithOptions = async (url: string) => {
@@ -20,15 +23,28 @@ const fetchWithOptions = async (url: string) => {
 
 export const getUser = async () => {
   try {
-    const res = await fetchWithOptions(`${URL}/api/user`);
-    const data = await res.json();
-    return data;
+    const users = await db.user.findMany({
+      orderBy: [{ created_at: "desc" }],
+    });
+    return users;
   } catch (error) {
     console.error("Error while fetching user", error);
     return null;
   }
 };
 
+export const updateUserRole = async (id: number, role: string) => {
+  try {
+    const user = await db.user.update({
+      where: { id },
+      data: { role: role as Role },
+    });
+    return user;
+  } catch (error) {
+    console.error("Error while updating user role", error);
+    return null;
+  }
+};
 export const getUserEditor = async () => {
   try {
     const res = await fetchWithOptions(`${URL}/api/user?role=EDITOR`);

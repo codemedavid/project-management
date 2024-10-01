@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { Metadata } from "next";
 import { db } from "@/lib/db";
+import UsersTables from "@/components/Users/Users.Tables";
 export const metadata: Metadata = {
   title: "Users",
 };
@@ -25,8 +26,9 @@ export default async function Users() {
         <div>
           <h2 className='text-2xl font-bold'>Users</h2>
         </div>
-        <div className='flex justify-between items-center'>
-          <div className='flex items-center gap-2'></div>
+
+        <div className='flex flex-col justify-between pt-10'>
+          <UsersTables users={users.length > 0 ? users : []} />
         </div>
       </div>
     </div>
