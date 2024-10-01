@@ -8,7 +8,8 @@ import { getProjectsLimit } from "@/lib/project";
 import Link from "next/link";
 export default async function Contents() {
   const projects = await getProjectsLimit(4);
-  const projectsData = projects.projects;
+  const projectsData = projects?.projects;
+  console.log(projects);
 
   const session = await getServerSession(options);
   return (
@@ -79,17 +80,18 @@ export default async function Contents() {
         </div>
 
         <div className='flex gap-4 flex-wrap overflow-y-auto'>
-          {projectsData.map(
-            (project: { title: string; description: string; id: string }) => (
-              <ProjectsCard
-                dark={false}
-                title={project.title}
-                description={project.description}
-                id={project.id}
-                key={project.id}
-              />
-            )
-          )}
+          {projectsData &&
+            projectsData.map(
+              (project: { title: string; description: string; id: string }) => (
+                <ProjectsCard
+                  dark={false}
+                  title={project.title}
+                  description={project.description}
+                  id={project.id}
+                  key={project.id}
+                />
+              )
+            )}
         </div>
       </div>
     </div>

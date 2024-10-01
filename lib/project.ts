@@ -1,5 +1,3 @@
-const API_URL = process.env.URL || "http://localhost:3000";
-
 type Project = {
   title: string;
   description: string;
@@ -17,7 +15,7 @@ export const postProject = async (project: Project) => {
 
 export const getProjects = async () => {
   try {
-    const res = await fetch(`${API_URL}/api/projects`);
+    const res = await fetch(`${process.env.URL}/api/projects`);
     const data = await res.json();
     return data;
   } catch (error) {
@@ -27,7 +25,9 @@ export const getProjects = async () => {
 
 export const getProject = async (projectId: number) => {
   try {
-    const res = await fetch(`${API_URL}/api/projects?projectId=${projectId}`);
+    const res = await fetch(
+      `${process.env.URL}/api/projects?projectId=${projectId}`
+    );
     const data = await res.json();
     return data;
   } catch (error) {
@@ -37,7 +37,7 @@ export const getProject = async (projectId: number) => {
 
 export const getProjectsLimit = async (limit: number) => {
   try {
-    const res = await fetch(`${API_URL}/api/projects?limit=${limit}`);
+    const res = await fetch(`${process.env.URL}/api/projects?limit=${limit}`);
     const data = await res.json();
     return data;
   } catch (error) {
@@ -50,7 +50,7 @@ export const getProjectsByProjectManagerId = async (
 ) => {
   try {
     const res = await fetch(
-      `${API_URL}/api/projects?projectManagerId=${projectManagerId}`
+      `${process.env.URL}/api/projects?projectManagerId=${projectManagerId}`
     );
     const data = await res.json();
     return data;
