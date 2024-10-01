@@ -4,14 +4,21 @@ import { getServerSession } from "next-auth";
 import NewProjectBtn from "@/components/Buttons/NewProjectBtn";
 import Image from "next/image";
 import Link from "next/link";
-import { getUserProjectManager } from "@/lib/User";
-import { getUserEditor } from "@/lib/User";
+import { db } from "@/lib/db";
 import ProjectsContents from "./Projects.Contents";
 
 export default async function Contents() {
-  const projectManagers = await getUserProjectManager();
-  const editors = await getUserEditor();
-  console.log("project managers", projectManagers);
+  const projectManagers = await db.user.findMany({
+    where: {
+      role: "PROJECT_MANAGER",
+    },
+  });
+
+  const editors = await db.user.findMany({
+    where: {
+      role: "EDITOR",
+    },
+  });
 
   const session = await getServerSession(options);
   return (
@@ -25,8 +32,22 @@ export default async function Contents() {
         </div>
         <div className='w-52'>
           <NewProjectBtn
-            projectManagers={projectManagers.length > 0 ? projectManagers : []}
-            editors={editors.length > 0 ? editors : []}
+            projectManagers={
+              projectManagers.length > 0
+                ? projectManagers.map(({ id, name }) => ({
+                    id: id.toString(),
+                    name,
+                  }))
+                : []
+            }
+            editors={
+              editors.length > 0
+                ? editors.map(({ id, name }) => ({
+                    id: id.toString(),
+                    name,
+                  }))
+                : []
+            }
           />
         </div>
       </div>
