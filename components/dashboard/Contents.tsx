@@ -3,16 +3,14 @@ import { options } from "@/app/api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
 import NewProjectBtn from "@/components/Buttons/NewProjectBtn";
 import Image from "next/image";
-import ProjectsCard from "./ProjectsCard";
-import { getProjectsLimit } from "@/lib/project";
 import Link from "next/link";
 import { getUserProjectManager } from "@/lib/User";
 import { getUserEditor } from "@/lib/User";
+import ProjectsContents from "./Projects.Contents";
+
 export default async function Contents() {
   const projectManagers = await getUserProjectManager();
   const editors = await getUserEditor();
-  const projects = await getProjectsLimit(4);
-  const projectsData = projects?.projects;
   console.log("project managers", projectManagers);
 
   const session = await getServerSession(options);
@@ -86,20 +84,7 @@ export default async function Contents() {
           </Link>
         </div>
 
-        <div className='flex gap-4 flex-wrap overflow-y-auto'>
-          {projectsData &&
-            projectsData.map(
-              (project: { title: string; description: string; id: string }) => (
-                <ProjectsCard
-                  dark={false}
-                  title={project.title}
-                  description={project.description}
-                  id={project.id}
-                  key={project.id}
-                />
-              )
-            )}
-        </div>
+        <ProjectsContents />
       </div>
     </div>
   );
