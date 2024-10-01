@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 //import localFont from "next/font/local";
 import "./globals.css";
+import ErrorBoundary from "@/components/ErrorBoundary";
+
 import { Public_Sans } from "next/font/google";
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -26,12 +28,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang='en'>
-      <body className={`${poppins.className}`}>{children}</body>
+      <body className={`${poppins.className}`}>
+        <ErrorBoundary>{children}</ErrorBoundary>
+      </body>
     </html>
   );
 }
