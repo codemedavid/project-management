@@ -1,3 +1,5 @@
+"use server";
+import { db } from "@/lib/db";
 const URL = process.env.URL || "https://project.programmingcourses.vip";
 type Project = {
   title: string;
@@ -6,12 +8,15 @@ type Project = {
   project_manager_id: number;
 };
 export const postProject = async (project: Project) => {
-  const res = await fetch(`${URL}/api/projects`, {
-    method: "POST",
-    body: JSON.stringify(project),
+  const newProject = await db.project.create({
+    data: {
+      title: project.title || "",
+      description: project.description || "",
+      project_manager_id: project.project_manager_id || 1,
+      editor_id: project.editor_id || 1,
+    },
   });
-  const data = await res.json();
-  return data;
+  return newProject;
 };
 
 export const getProjects = async () => {
