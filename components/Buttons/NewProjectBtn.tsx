@@ -21,11 +21,15 @@ export default function NewProjectBtn() {
   // };
   useEffect(() => {
     const fetchData = async () => {
-      const projectManagers = await getUserProjectManager();
-      const editors = await getUserEditor();
+      try {
+        const projectManagers = await getUserProjectManager();
+        const editors = await getUserEditor();
 
-      setProjectManagers(projectManagers?.users);
-      setEditors(editors?.users);
+        setProjectManagers(projectManagers?.users);
+        setEditors(editors?.users);
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchData();
   }, []);
