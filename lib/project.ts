@@ -1,3 +1,4 @@
+const URL = process.env.URL || "https://project.programmingcourses.vip";
 type Project = {
   title: string;
   description: string;
@@ -5,7 +6,7 @@ type Project = {
   project_manager_id: number;
 };
 export const postProject = async (project: Project) => {
-  const res = await fetch("/api/projects", {
+  const res = await fetch(`${URL}/api/projects`, {
     method: "POST",
     body: JSON.stringify(project),
   });
@@ -15,7 +16,7 @@ export const postProject = async (project: Project) => {
 
 export const getProjects = async () => {
   try {
-    const res = await fetch(`${process.env.URL}/api/projects`);
+    const res = await fetch(`${URL}/api/projects`);
     const data = await res.json();
     return data;
   } catch (error) {
@@ -25,9 +26,7 @@ export const getProjects = async () => {
 
 export const getProject = async (projectId: number) => {
   try {
-    const res = await fetch(
-      `${process.env.URL}/api/projects?projectId=${projectId}`
-    );
+    const res = await fetch(`${URL}/api/projects?projectId=${projectId}`);
     const data = await res.json();
     return data;
   } catch (error) {
@@ -37,7 +36,7 @@ export const getProject = async (projectId: number) => {
 
 export const getProjectsLimit = async (limit: number) => {
   try {
-    const res = await fetch(`${process.env.URL}/api/projects?limit=${limit}`);
+    const res = await fetch(`${URL}/api/projects?limit=${limit}`);
     const data = await res.json();
     return data;
   } catch (error) {
@@ -50,7 +49,7 @@ export const getProjectsByProjectManagerId = async (
 ) => {
   try {
     const res = await fetch(
-      `${process.env.URL}/api/projects?projectManagerId=${projectManagerId}`
+      `${URL}/api/projects?projectManagerId=${projectManagerId}`
     );
     const data = await res.json();
     return data;

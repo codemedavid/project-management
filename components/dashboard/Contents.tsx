@@ -9,7 +9,7 @@ import Link from "next/link";
 export default async function Contents() {
   const projects = await getProjectsLimit(4);
   const projectsData = projects?.projects;
-  console.log(projects);
+  console.log("projects", projects);
 
   const session = await getServerSession(options);
   return (

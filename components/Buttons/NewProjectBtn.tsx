@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, BaseSyntheticEvent } from "react";
 import { FaArrowRight, FaPlus } from "react-icons/fa";
 import { getUserProjectManager, getUserEditor } from "@/lib/User";
 import { postProject } from "@/lib/project";
@@ -33,10 +33,9 @@ export default function NewProjectBtn() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: BaseSyntheticEvent) => {
     event.preventDefault();
     setLoading(true);
-    console.log(projectName, projectDescription, editor, projectManager);
 
     const project = {
       title: projectName,
@@ -46,10 +45,11 @@ export default function NewProjectBtn() {
     };
     // TODO: Implement project creation logic here
     const res = await postProject(project);
-    console.log(res);
-    closeModal();
-    setLoading(false);
-    router.refresh();
+    if (res) {
+      closeModal();
+      setLoading(false);
+      router.refresh();
+    }
     // Reset form fields
     setProjectName("");
     setProjectDescription("");
