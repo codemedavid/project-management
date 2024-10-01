@@ -25,8 +25,10 @@ export default function NewProjectBtn() {
         const projectManagers = await getUserProjectManager();
         const editors = await getUserEditor();
 
-        setProjectManagers(projectManagers?.users);
-        setEditors(editors?.users);
+        setProjectManagers(
+          projectManagers?.users.length > 0 ? projectManagers?.users : []
+        );
+        setEditors(editors?.users.length > 0 ? editors?.users : []);
       } catch (error) {
         console.error(error);
       }
@@ -95,14 +97,18 @@ export default function NewProjectBtn() {
                       className='w-full p-2 mb-4 border rounded'
                     >
                       <option value=''>Select Project Manager</option>
-                      {projectManagers.map(
-                        (manager: { id: string; name: string }) => {
-                          return (
-                            <option key={manager.id} value={manager.id}>
-                              {manager.name}
-                            </option>
-                          );
-                        }
+                      {projectManagers.length > 0 ? (
+                        projectManagers.map(
+                          (manager: { id: string; name: string }) => {
+                            return (
+                              <option key={manager.id} value={manager.id}>
+                                {manager.name}
+                              </option>
+                            );
+                          }
+                        )
+                      ) : (
+                        <option value=''>No Project Managers Found</option>
                       )}
                     </select>
 
@@ -116,13 +122,17 @@ export default function NewProjectBtn() {
                       className='w-full p-2 mb-4 border rounded'
                     >
                       <option value=''>Select Editor</option>
-                      {editors.map((editor: { id: string; name: string }) => {
-                        return (
-                          <option key={editor.id} value={editor.id}>
-                            {editor.name}
-                          </option>
-                        );
-                      })}
+                      {editors.length > 0 ? (
+                        editors.map((editor: { id: string; name: string }) => {
+                          return (
+                            <option key={editor.id} value={editor.id}>
+                              {editor.name}
+                            </option>
+                          );
+                        })
+                      ) : (
+                        <option value=''>No Editors Found</option>
+                      )}
                     </select>
                   </div>
 

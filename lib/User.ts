@@ -20,7 +20,7 @@ export const getUserProjectManager = async () => {
   try {
     const res = await fetch(`${URL}/api/user?role=PROJECT_MANAGER`);
     const data = await res.json();
-    return data;
+    return data.length > 0 ? data : [];
   } catch (error) {
     console.error("error while fetching project managers", error);
   }
