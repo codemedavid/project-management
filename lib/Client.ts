@@ -28,3 +28,15 @@ export async function UpdateClientPipeline(
   });
   return clients;
 }
+
+export async function getClientsByProjectManager(id: number) {
+  console.log(id);
+  if (id !== undefined) {
+    const myClients = await db.client.findMany({
+      where: { project_manager_id: id },
+    });
+    return myClients;
+  } else {
+    return [];
+  }
+}

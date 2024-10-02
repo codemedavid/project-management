@@ -16,6 +16,11 @@ enum Role {
   STUDENT
 }
 
+enum ProjectType {
+  per_project
+  per_hour
+}
+
 model Project{
   id Int @id @default(autoincrement())
   title String
@@ -24,6 +29,7 @@ model Project{
   Rate Decimal?
   Video_Type String?
   Niche String?
+  project_type ProjectType? @default(per_project)
   created_at DateTime @default(now())
   updatedAt DateTime @updatedAt
   tikets Tikets[]

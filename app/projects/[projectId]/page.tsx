@@ -20,8 +20,8 @@ export default async function Projects({
       id: parseInt(params.projectId),
     },
   });
-
   const {
+    id,
     title,
     description,
     Niche,
@@ -122,7 +122,7 @@ export default async function Projects({
             Video_Type == null ||
             Rate == null ||
             Niche == null ? (
-              <AddDetails />
+              <AddDetails id={myId!} projectId={id ?? 1} />
             ) : (
               <NewTicketBtn />
             )}
