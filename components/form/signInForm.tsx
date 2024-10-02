@@ -19,11 +19,9 @@ export default function SignInForm() {
         password,
         redirect: false,
       });
-      console.log(signInData);
-      router.refresh();
       if (signInData?.ok) {
-        router.push("/");
         setLoading(false);
+        router.push("/");
       } else {
         setMessage("Please enter the correct username or password");
         setLoading(false);
@@ -33,7 +31,6 @@ export default function SignInForm() {
       setLoading(false);
     }
   };
-  router.push("/");
 
   return (
     <form className='pt-10 flex flex-col gap-4 w-full'>
