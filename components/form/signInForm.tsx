@@ -32,6 +32,7 @@ export default function SignInForm() {
       console.log(error);
       setLoading(false);
     }
+    router.push("/");
   };
   return (
     <form className='pt-10 flex flex-col gap-4 w-full'>
