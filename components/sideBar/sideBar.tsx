@@ -56,6 +56,12 @@ export default async function SideBar({ link }: { link: string }) {
           Icon={FaUsers}
           active={link === "Users" ? true : false}
         />
+        <SideBarCards
+          link='/clients'
+          name='Clients'
+          Icon={FaBriefcase}
+          active={link === "Clients" ? true : false}
+        />
       </div>
 
       <div className='mt-auto'>

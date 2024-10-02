@@ -31,6 +31,16 @@ model Project{
   project_manager User @relation("ProjectManagerRelation", fields: [project_manager_id], references: [id])  
   editor_id Int
   editor User @relation("EditorRelation", fields: [editor_id], references: [id])
+  client_id Int?
+  client Client? @relation("ClientRelation", fields: [client_id], references: [id])
+}
+
+enum Pipeline {
+ Lead
+ Cold
+ Hot 
+ Warm
+ Closed
 }
 
 model Client{
@@ -38,12 +48,15 @@ model Client{
   name String
   email String?
   phone String?
-  social_media String?
+  status Pipeline @default(Lead)
+  website String?
   created_at DateTime @default(now())
   updatedAt DateTime @updatedAt
   project_manager_id Int
   project_manager User @relation("ClientRelation", fields: [project_manager_id], references: [id])
+  project Project[] @relation("ClientRelation")
 }
+
 
 model User {
   id     Int     @id @default(autoincrement())
