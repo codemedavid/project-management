@@ -1,6 +1,6 @@
 "use server";
 import { db } from "@/lib/db";
-import { Project, ProjectType } from "@prisma/client";
+import { ProjectType } from "@prisma/client";
 const URL = process.env.URL || "https://project.programmingcourses.vip";
 
 type ProjectDetails = {
@@ -10,6 +10,12 @@ type ProjectDetails = {
   Rate: number | null;
   Video_Type: string | null;
   Niche: string | null;
+};
+type Project = {
+  title: string;
+  description: string;
+  project_manager_id: number;
+  editor_id: number;
 };
 export const postProject = async (project: Project) => {
   const newProject = await db.project.create({
