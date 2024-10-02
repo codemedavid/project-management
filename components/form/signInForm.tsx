@@ -17,10 +17,10 @@ export default function SignInForm() {
       const signInData = await signIn("credentials", {
         username,
         password,
-        redirect: true,
+        redirect: false,
       });
       console.log(signInData);
-
+      router.refresh();
       if (signInData?.ok) {
         router.push("/");
         setLoading(false);
