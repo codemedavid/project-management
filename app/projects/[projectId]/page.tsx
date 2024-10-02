@@ -10,6 +10,7 @@ import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { db } from "@/lib/db";
 import AddDetails from "@/components/Buttons/AddDetails";
+import TicketsProjectsManagerTable from "@/components/Tickets/TicketsProjectsManagerTable";
 export default async function Projects({
   params,
 }: {
@@ -37,7 +38,7 @@ export default async function Projects({
       id: editor_id,
     },
   });
-  const { name, email } = editor || {};
+  const { name, email, id: editorId } = editor || {};
 
   console.log("new project", project);
 
@@ -124,7 +125,11 @@ export default async function Projects({
             Niche == null ? (
               <AddDetails id={myId!} projectId={id ?? 1} />
             ) : (
-              <NewTicketBtn />
+              <NewTicketBtn
+                projectManagerId={parseInt(projectManagerId!)}
+                projectId={id!}
+                editorId={editorId!}
+              />
             )}
             <button className='bg-black text-white p-2 rounded-md text-sm flex gap-2 items-center justify-center'>
               <SiGooglemeet size={20} color='yellow' />
@@ -133,14 +138,14 @@ export default async function Projects({
         </div>
 
         {/* All Tickets Table */}
-        <div className=' flex flex-col gap-2 w-full  h-[40vh] justify-center items-center text-center text-xl mt-10'>
+        <div className=' flex flex-col gap-2 w-full  h-[40vh] justify-center text-center text-xl mt-10'>
           {Platform == null ||
           Video_Type == null ||
           Rate == null ||
           Niche == null ? (
             <p>Please add Client or Project Details to Create a Ticket</p>
           ) : (
-            <p>You Can Now Create a Ticket</p>
+            <TicketsProjectsManagerTable projectId={id || null} />
           )}
         </div>
       </div>

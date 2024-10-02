@@ -2,10 +2,12 @@
 import React from "react";
 import { signOut } from "next-auth/react";
 import { FaSignOutAlt } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 export default function SignOutBtn() {
+  const router = useRouter();
   const signingOut = () => {
-    const logOut = signOut();
-    console.log(logOut);
+    signOut();
+    router.push("/");
   };
   return (
     <button
