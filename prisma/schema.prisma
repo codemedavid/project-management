@@ -16,6 +16,11 @@ enum Role {
   STUDENT
 }
 
+enum ProjectType {
+  per_project
+  per_hour
+}
+
 model Project{
   id Int @id @default(autoincrement())
   title String
@@ -24,6 +29,7 @@ model Project{
   Rate Decimal?
   Video_Type String?
   Niche String?
+  project_type ProjectType? @default(per_project)
   created_at DateTime @default(now())
   updatedAt DateTime @updatedAt
   tikets Tikets[]
@@ -31,6 +37,16 @@ model Project{
   project_manager User @relation("ProjectManagerRelation", fields: [project_manager_id], references: [id])  
   editor_id Int
   editor User @relation("EditorRelation", fields: [editor_id], references: [id])
+  client_id Int?
+  client Client? @relation("ClientRelation", fields: [client_id], references: [id])
+}
+
+enum Pipeline {
+ Lead
+ Cold
+ Hot 
+ Warm
+ Closed
 }
 
 model Client{
@@ -38,12 +54,15 @@ model Client{
   name String
   email String?
   phone String?
-  social_media String?
+  status Pipeline @default(Lead)
+  website String?
   created_at DateTime @default(now())
   updatedAt DateTime @updatedAt
   project_manager_id Int
   project_manager User @relation("ClientRelation", fields: [project_manager_id], references: [id])
+  project Project[] @relation("ClientRelation")
 }
+
 
 model User {
   id     Int     @id @default(autoincrement())
@@ -77,6 +96,7 @@ model Tikets{
   project_manager User @relation("ProjectManagerRelation", fields: [project_manager_id], references: [id])
   editor_id Int?
   editor User? @relation("EditorRelation", fields: [editor_id], references: [id])
+
 }
 
 datasource db {
