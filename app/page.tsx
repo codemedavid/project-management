@@ -7,7 +7,7 @@ import ProfileCard from "@/components/Profile/ProfileCard";
 import ProjectManager from "@/components/dashboard/Contents.ProjectManager";
 import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
-
+import { Suspense } from "react";
 export default async function Home() {
   const session = await getServerSession(options);
 
@@ -18,13 +18,15 @@ export default async function Home() {
       </div>
       <div className='w-[53%] flex justify-center '>
         {/* <Contents /> */}
-        <ProjectManager
-          session={
-            session || {
-              user: { name: "", username: "", email: "", id: "" },
+        <Suspense fallback={<div>Loading...</div>}>
+          <ProjectManager
+            session={
+              session || {
+                user: { name: "", username: "", email: "", id: "" },
+              }
             }
-          }
-        />
+          />
+        </Suspense>
       </div>
       <div className='w-[22%] border-l border-slate-300'>
         <div className='h-60 bg-white w-full'>

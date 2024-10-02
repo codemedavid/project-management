@@ -5,6 +5,7 @@ import { options } from "@/app/api/auth/[...nextauth]/options";
 import { db } from "@/lib/db";
 import ClientsTable from "@/components/Clients/ClientsTable";
 import AddClientBtn from "@/components/Buttons/AddClientBtn";
+import { Suspense } from "react";
 export default async function Home() {
   const session = await getServerSession(options);
   const id = parseInt(session?.user.id ?? "0");
@@ -25,7 +26,9 @@ export default async function Home() {
         <div className='flex justify-end w-full '>
           <AddClientBtn id={id} />
         </div>
-        <ClientsTable clients={clients} id={id} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <ClientsTable clients={clients} id={id} />
+        </Suspense>
       </div>
     </div>
   );

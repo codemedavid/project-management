@@ -5,6 +5,7 @@ import { options } from "@/app/api/auth/[...nextauth]/options";
 import { Metadata } from "next";
 import { db } from "@/lib/db";
 import UsersTables from "@/components/Users/Users.Tables";
+import { Suspense } from "react";
 export const metadata: Metadata = {
   title: "Users",
 };
@@ -28,7 +29,9 @@ export default async function Users() {
         </div>
 
         <div className='flex flex-col justify-between pt-10'>
-          <UsersTables users={users.length > 0 ? users : []} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <UsersTables users={users.length > 0 ? users : []} />
+          </Suspense>
         </div>
       </div>
     </div>

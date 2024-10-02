@@ -9,6 +9,7 @@ import NewTicketBtn from "@/components/Buttons/NewTicketBtn";
 import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { db } from "@/lib/db";
+import AddDetails from "@/components/Buttons/AddDetails";
 export default async function Projects({
   params,
 }: {
@@ -121,9 +122,7 @@ export default async function Projects({
             Video_Type == null ||
             Rate == null ||
             Niche == null ? (
-              <button className='bg-black text-white p-2 rounded-md text-sm flex gap-2 items-center justify-center'>
-                Add Details
-              </button>
+              <AddDetails />
             ) : (
               <NewTicketBtn />
             )}
