@@ -28,6 +28,7 @@ export default function SignInForm() {
         setMessage("Please enter the correct username or password");
         setLoading(false);
       }
+      router.push("/");
     } catch (error) {
       console.log(error);
       setLoading(false);

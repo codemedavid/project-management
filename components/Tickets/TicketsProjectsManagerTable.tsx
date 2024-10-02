@@ -1,6 +1,5 @@
 import React from "react";
 import { db } from "@/lib/db";
-import Link from "next/link";
 export default async function TicketsProjectsManagerTable({
   projectId,
 }: {
@@ -61,12 +60,9 @@ export default async function TicketsProjectsManagerTable({
                 </select>
               </td>
               <td>
-                <Link
-                  href={ticket.url || ""}
-                  className='text-blue-500 underline'
-                >
+                <a href={ticket.url || ""} className='text-blue-500 underline'>
                   Link
-                </Link>
+                </a>
               </td>
               <td>{ticket.approval}</td>
             </tr>
