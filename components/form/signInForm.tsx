@@ -19,7 +19,6 @@ export default function SignInForm() {
         password,
         redirect: false,
       });
-      await router.push("/");
       console.log(signInData);
 
       if (signInData?.ok) {
@@ -29,6 +28,7 @@ export default function SignInForm() {
         setMessage("Please enter the correct username or password");
         setLoading(false);
       }
+      await router.push("/");
     } catch (error) {
       console.log(error);
       setLoading(false);
